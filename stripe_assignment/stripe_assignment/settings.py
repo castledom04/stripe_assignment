@@ -217,10 +217,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # https://github.com/tfranzel/drf-spectacular
 # -------------------------------------------------------------------
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Your Project API',
-    'DESCRIPTION': 'Your project description',
+    'TITLE': 'Stripe Assignment API',
+    'DESCRIPTION': 'This is a basic API to demonstrate a simple integration with Stripe initiating payments.',
     'VERSION': '1.0.0',
-    # OTHER SETTINGS
 }
 
 

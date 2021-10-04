@@ -2,10 +2,11 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from ..exceptions import PaymentsCardError, PaymentsGatewayError
 from ..serializers import StatusSerializer, SubscribeSerializer
-from ..services import PaymentsGateway
+from ..services import PaymentsGateway, PaymentsWebhook
 
 
 class SubscriptionsViewSet(viewsets.ViewSet):
@@ -61,7 +62,17 @@ class SubscriptionsViewSet(viewsets.ViewSet):
 
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    @action(detail=False, methods=['post'], permission_classes=[permissions.IsAuthenticated], url_path='stripe-webhook')
-    def stripe_webhook(self, request):
-        print('request', request)
+
+class StripeWebookView(APIView):
+
+    permission_classes = (permissions.AllowAny,)
+
+    @extend_schema(
+        description="""
+            Endpoint to handle stripe webhook events. Always returns a response status 200.
+        """
+    )
+    def post(self, request, format=None):
+        webhook = PaymentsWebhook()
+        webhook.handle_event(request)
         return Response("OK")
