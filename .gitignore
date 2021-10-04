@@ -1,3 +1,6 @@
+#Django static files
+stripe_assignment/staticfiles
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

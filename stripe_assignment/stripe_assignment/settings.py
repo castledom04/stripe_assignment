@@ -66,6 +66,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -223,3 +224,8 @@ STRIPE_API_SECRET = os.environ.get("STRIPE_API_SECRET", '')
 STRIPE_BASIC_PRODUCT_PRICE_ID = os.environ.get("STRIPE_BASIC_PRODUCT_PRICE_ID", '')
 STRIPE_PRO_PRODUCT_PRICE_ID = os.environ.get("STRIPE_PRO_PRODUCT_PRICE_ID", '')
 STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET", '')
+
+
+# Configure static files
+# -------------------------------------------------------------------
+STATIC_ROOT = BASE_DIR / 'staticfiles'

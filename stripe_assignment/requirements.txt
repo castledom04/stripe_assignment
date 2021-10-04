@@ -18,3 +18,4 @@ doublex>=1.9.3,<1.10.0
 
 # For production and staging
 gunicorn>=20.1.0,<20.2.0
+whitenoise
