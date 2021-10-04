@@ -4,7 +4,7 @@ from doublex import Stub
 from expects import be_above, be_false, be_true, equal, expect, have_len
 from mock import patch
 from rest_framework import status
-from stripe.error import CardError, InvalidRequestError
+from stripe.error import AuthenticationError, CardError, InvalidRequestError
 
 from ...models import Account, Customer, PaymentMethod, Subscription, User
 from ...models.constants import (PaymentMethodType, SubscriptionProduct,
@@ -428,4 +428,22 @@ class SubscibeTestCase(BaseAPITestCase):
         expect(subscription_create.called).to(be_true)
         expect(self.user.get_subscription()).to(equal(None))
 
-    # test general exceptions here
+    @patch('stripe.Customer.create')
+    def test_it_controls_payments_gateway_provider_errors(
+        self,
+        customer_create
+    ):
+        data = {
+            'subscription_product': SubscriptionProduct.BASIC_PRODUCT_NAME,
+            'card_number': '4242424242424242',
+            'card_expiration_month': 10,
+            'card_expiration_year': 2100,
+            'card_cvc': 767}
+        customer_create.side_effect = AuthenticationError(
+            message="AuthenticationError",
+        )
+
+        response = self.post(url=self.url, user=self.user, data=data)
+
+        expect(response.status_code).to(equal(status.HTTP_400_BAD_REQUEST))
+        expect(response.json()).to(equal({'non_field_errors': ['AuthenticationError']}))
