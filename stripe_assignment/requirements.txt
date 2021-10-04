@@ -1,0 +1,20 @@
+# Main packages
+Django>=3.2.0,<3.3.0
+djangorestframework>=3.12.4,<3.13.0
+djangorestframework-simplejwt>=4.8.0,<4.9.0
+django-extensions>=3.1.3,<3.2.0
+django-cors-headers>=3.8.0,<3.9.0
+psycopg2>=2.9.1,<2.10.0
+cryptography>=35.0.0,<36.0.0
+stripe>=2.60.0,<2.70.0
+drf-spectacular>=0.20.0,<0.21.0
+
+# For development and testing
+expects>=0.9.0
+ipdb>=0.13.9
+flake8>=3.9.2
+mock>=4.0.3,<4.1.0
+doublex>=1.9.3,<1.10.0
+
+# For production and staging
+gunicorn>=20.1.0,<20.2.0
