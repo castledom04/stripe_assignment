@@ -41,15 +41,9 @@ ALLOWED_HOSTS += os.environ.get("DJANGO_ALLOWED_HOSTS").split(',')
 # Configure CORS
 # https://github.com/adamchainz/django-cors-headers
 # -------------------------------------------------------------------
-CORS_ALLOW_ALL_ORIGINS = False
-CORS_ALLOWED_ORIGINS = [
-    "https://api.superdomain.com",
-]
-CORS_ALLOWED_ORIGIN_REGEXES = [
-    r"^http://\w+\.superdomain\.com$",
-]
-if DEBUG:
-    CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True
+#  Be vareful! For security configure allowed origins when
+# deploying to production using the variables CORS_ALLOWED_ORIGINS and CORS_ALLOWED_ORIGIN_REGEXES
 
 
 # Application definition
