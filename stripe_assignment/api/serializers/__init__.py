@@ -1,2 +1,2 @@
-from .subscriptions import SubscribeSerializer
+from .subscriptions import StatusSerializer, SubscribeSerializer
 from .token import MyTokenObtainPairSerializer

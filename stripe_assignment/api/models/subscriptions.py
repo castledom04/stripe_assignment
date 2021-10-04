@@ -42,5 +42,4 @@ class Subscription(TimeStampMixin):
 
     @property
     def purchase_date(self):
-        # equals to created_at date format
-        return ""
+        return self.created_at.date()

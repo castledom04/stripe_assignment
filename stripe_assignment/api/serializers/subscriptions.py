@@ -1,6 +1,7 @@
 from django.utils import timezone
 from rest_framework import serializers
 
+from ..models import Subscription
 from ..models.constants import SubscriptionProduct
 
 
@@ -40,3 +41,18 @@ class SubscribeSerializer(serializers.Serializer):
             raise serializers.ValidationError(errors)
 
         return new_data
+
+
+class StatusSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Subscription
+        fields = [
+            'status',
+            'payment_gateway_status',
+            'current_period_start',
+            'current_period_end',
+            'id_reference',
+            'price_reference',
+            'purchase_date',
+        ]
