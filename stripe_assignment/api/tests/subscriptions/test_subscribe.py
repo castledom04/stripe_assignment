@@ -363,7 +363,7 @@ class SubscibeTestCase(BaseAPITestCase):
         expect(subscription.account).to(equal(self.account))
 
     @patch('stripe.Subscription.create')
-    def test_it_does_not_creates_a_subscription_if_already_exist(
+    def test_it_does_not_creates_a_subscription_if_already_exist_and_returns_a_409_error(
         self,
         subscription_create
     ):
@@ -391,7 +391,8 @@ class SubscibeTestCase(BaseAPITestCase):
 
         response = self.post(url=self.url, user=self.user, data=data)
 
-        expect(response.status_code).to(equal(status.HTTP_200_OK))
+        expect(response.status_code).to(equal(status.HTTP_409_CONFLICT))
+        expect(response.json()).to(equal({'non_field_errors': ['Already subscribed!']}))
         expect(subscription_create.called).to(be_false)
         expect(Subscription.objects.filter(account=self.account)).to(have_len(1))
         expect(self.user.get_subscription().id).to(equal(subscription.id))

@@ -4,7 +4,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from ..exceptions import PaymentsCardError, PaymentsGatewayError
+from ..exceptions import (PaymentsAlreadySubscribedError, PaymentsCardError,
+                          PaymentsGatewayError)
 from ..serializers import StatusSerializer, SubscribeSerializer
 from ..services import PaymentsGateway, PaymentsWebhook
 
@@ -38,6 +39,11 @@ class SubscriptionsViewSet(viewsets.ViewSet):
                 return Response(
                     {"non_field_errors": [e.message]},
                     status=status.HTTP_400_BAD_REQUEST
+                )
+            except PaymentsAlreadySubscribedError as e:
+                return Response(
+                    {"non_field_errors": [e.message]},
+                    status=status.HTTP_409_CONFLICT
                 )
 
         return Response(status=status.HTTP_200_OK)

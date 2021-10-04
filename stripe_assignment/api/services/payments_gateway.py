@@ -1,7 +1,8 @@
 import stripe
 from django.conf import settings
 
-from ..exceptions import PaymentsCardError, PaymentsGatewayError
+from ..exceptions import (PaymentsAlreadySubscribedError, PaymentsCardError,
+                          PaymentsGatewayError)
 from ..models import Customer, PaymentMethod, Subscription
 from ..models.constants import (PaymentMethodType, SubscriptionProduct,
                                 SubscriptionStatus)
@@ -92,7 +93,7 @@ class PaymentsGateway:
 
     def __create_subscription(self, requester, customer_reference, data):
         if Subscription.objects.filter(account=requester.account).exists():
-            return
+            raise PaymentsAlreadySubscribedError(message="Already subscribed!")
 
         Subscription.objects.create(
             status=SubscriptionStatus.PENDING,
