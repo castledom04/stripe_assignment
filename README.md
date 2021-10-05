@@ -102,10 +102,10 @@ docker-compose exec django sh lint.sh
 ```
 
 ## Deployment
-We're using Docker to configure the project, so in order to deploy the project the simpliest way is to replicate the same steps described above. We reccommend using `staging` or `production` as value for the variable `ENVIRONMENT` inside the `.env` file. This is to hide sensible information deactivating the debug mode.
+We're using Docker to configure the project, so in order to deploy the project the simpliest way is to replicate the same steps described above. We recommend using `staging` or `production` as value for the variable `ENVIRONMENT` inside the `.env` file. This is to hide sensible information deactivating the debug mode.
 It's also recommended to use gunicorn instead of Django runserver command for performance issues. The command to run the server would be this one:
 ```sh
-gunicorn --bind 0.0.0.0:9000 --workers 3 farmarobotics.wsgi
+gunicorn --bind 0.0.0.0:8000 --workers 3 stripe_assignment.wsgi
 ```
 The last step you need to do is to create a new webhook endpoint using Stripe dashboard. We need to receive the Stripe events or the platform will not work. The url to point will be:
 ```sh
