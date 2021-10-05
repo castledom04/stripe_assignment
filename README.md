@@ -1,7 +1,7 @@
 # Stripe Assignment
 ## _Django Stripe microservice_
 In this project we will integrate Stripe service into Django using a microservice.
-Django comes with an admin dashboard, that will be useful to create users. Also we have created a JWT authentication system to mimic a real world mivroservice. The token obtain and refresh methods would have been in another microservice in the real world, but we have included them to run the demo.
+Django comes with an admin dashboard, that will be useful to create users. Also we have created a JWT authentication system to mimic a real world microservice. The token obtain and refresh methods would have been in another microservice in the real world, but we have included them to run the demo.
 In order to run the server and make the demo work, first you must fulfill some requirements.
 
 ## Requirements
@@ -36,7 +36,7 @@ As we told you before we need some Stripe data in order to make the project work
 product. It will be something similar to `price_1JgB7xxxxxxxxxxxxx`.
 Set the variables `STRIPE_BASIC_PRODUCT_PRICE_ID` and `STRIPE_PRO_PRODUCT_PRICE_ID` with the prices references.
 - To simulate the Stripe webhook behaviour in your local machine, you will need to install the Stripe CLI to redirect the data to your server. Follow the instructions in `https://stripe.com/docs/stripe-cli`
--- Once installed just and configured run the server to redirect the events to our server. You can get the webhook secret from the Stripe CLI output and save it to the variable `STRIPE_WEBHOOK_SECRET` in `.env`. The `STRIPE_WEBHOOK_SECRET` variable is not needed in local, it's just an extra validation for production environments.
+-- Once installed and configured run the client to redirect the events to our local server. You can get the webhook secret from the Stripe CLI output and save it to the variable `STRIPE_WEBHOOK_SECRET` in `.env`. The `STRIPE_WEBHOOK_SECRET` variable is not needed in local, it's just an extra validation for production environments.
 ```sh
 stripe listen --forward-to localhost:8000/api/stripe-webhook/
 ```
@@ -66,11 +66,10 @@ By default an `admin` superuser is created with the password `qweqweqwE1`. With 
   "card_expiration_year": 2030,
   "card_cvc": 999
 }
-}
 ```
 9. This will return a http response with 200 status if all goes well or a http response with 400 status if there is an error. Inside the response there will be a message detailing the error.
 10. You cannot subscribe again with a user if it's already subscribed. It will return http response with a 409 status.
-11. To check the status of your subscription we can make a get request using the endpoint `api/subscriptions/subscribe`, it will return a response similar to this:
+11. To check the status of your subscription we can make a get request using the endpoint `api/subscriptions/status`, it will return a response similar to this:
 ```json
 {
   "status": "successful",
@@ -84,11 +83,11 @@ By default an `admin` superuser is created with the password `qweqweqwE1`. With 
 ```
 12. And that's it! You have finished the base demo.
 13. You can test to subscribe with as many users as you want and using different testing cards described in here: `https://stripe.com/docs/testing#international-cards`
-14. It's interesting to test a cards with extra security using 3D secure. For example using the card number `4000002500003155`. You will see the subscription will be in a failed status until you manually complete the card verificantion using the Stripe dashboard.
+14. It's interesting to test cards with extra security using 3D secure. For example using the card number `4000002500003155`. You will see the subscription will be in a failed status until you manually complete the card verificantion using the Stripe dashboard.
 
 > NOTE
 > Remember you can create new users or delete the `Customer`, `PaymentMethod` and `Subscription` related to a user
-> if you need it using the Django dashboard in the url `http://localhost:8000/admin/`
+> if you need it to subscribe again, using the Django dashboard in the url `http://localhost:8000/admin/`
 
 
 ## Run the tests
